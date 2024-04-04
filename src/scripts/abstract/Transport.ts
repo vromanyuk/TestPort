@@ -9,7 +9,7 @@ abstract class Transport {
 
   abstract move(): void;
 
-  stop(){
+  stop() {
     console.log(`${this.name} is stoped`);
   }
 
