@@ -2,9 +2,7 @@ abstract class Transport {
   constructor(
     public speed: number,
     public name: string,
-    public color: string,
-    public height: number,
-    public width: number
+    public color: string
   ) {}
 
   abstract move(): void;
