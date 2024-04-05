@@ -1,8 +1,7 @@
-abstract class Transport {
+export abstract class Transport {
   constructor(
     public speed: number,
-    public name: string,
-    public color: string
+    public name: string
   ) {}
 
   abstract move(): void;
@@ -10,5 +9,4 @@ abstract class Transport {
   stop() {
     console.log(`${this.name} is stoped`);
   }
-
 }
