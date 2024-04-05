@@ -1,1 +1,1 @@
-class Breakwaters extends Build {}
+class Breakwaters {}

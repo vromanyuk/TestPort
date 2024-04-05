@@ -1,8 +1,9 @@
-import { Graphics, Color } from "pixi.js";
-import { Identifier } from '../interface/Identifier'
-import { Transport } from '../abstract/Transport'
+import { Graphics } from "pixi.js";
+import { Identifier } from '../interface/Identifier';
+import { Loader } from '../interface/Loader';
+import { Transport } from '../abstract/Transport';
 
-export class Ship extends Transport implements Identifier {
+export class Ship extends Transport implements Identifier, Loader {
   isLoaded: boolean;
   graphics: Graphics;
   color: number;
@@ -12,14 +13,13 @@ export class Ship extends Transport implements Identifier {
     this.isLoaded = isLoaded;
     this.color = isLoaded ? 0xde3249 : 0x35cc5a;
     this.graphics = new Graphics();
-    this.graphics.stroke({ width: 2, color: this.color });
     this.graphics.rect(0, 0, 80, 30)
+    this.graphics.stroke({ width: 4, color: this.color });
     this.draw();
   }
 
   draw(): void {
-    const fillShip = this.isLoaded ? this.color : 0x00000000;
-    this.graphics.fill(fillShip)
+    this.graphics.fill({ color: this.color, alpha: this.isLoaded ? 1 : 0 });
   }
 
   toggleLoaded(): void {

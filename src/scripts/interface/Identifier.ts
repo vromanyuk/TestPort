@@ -1,4 +1,6 @@
+import { Graphics } from 'pixi.js';
+
 export interface Identifier {
-  isLoaded: boolean;
-  toggleLoaded(): void;
+  graphics: Graphics;
+  draw(): void;
 }
