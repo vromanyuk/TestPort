@@ -26,7 +26,7 @@ export class Ship extends Transport implements Identifier, Loader {
     this.isLoaded = !this.isLoaded;
     this.draw();
   }
-
+  
   move() {
     console.log(`${this.name} is moving`);
   }

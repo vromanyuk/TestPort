@@ -11,7 +11,7 @@ export class Pier extends Build implements Identifier, Loader {
     super(name, color);
     this.isLoaded = isLoaded;
     this.graphics = new Graphics();
-    this.graphics.rect(0, 10, 40, 120);
+    this.graphics.rect(0, 0, 40, 120);
     this.graphics.stroke({ width: 4, color: this.color });
     this.draw();
   }

@@ -8,7 +8,7 @@ import { MainScene } from './scenes/Main';
     height: 768, 
     width: 1024 
   });
+  const game = new MainScene(app);
+  app.ticker.add(game.update, game);
   document.body.appendChild(app.canvas);
-
-  new MainScene(app)
 })();
