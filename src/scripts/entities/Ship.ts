@@ -1,7 +1,7 @@
 import { Graphics } from "pixi.js";
-import { ActiveObject } from '../abstract/ActiveObject';
+import { DynamicObject } from '../abstract/DynamicObject';
 
-export class Ship extends ActiveObject {
+export class Ship extends DynamicObject {
   constructor(isLoaded: boolean, graphics: Graphics, color: number) {
     super(isLoaded, graphics, color);
   }

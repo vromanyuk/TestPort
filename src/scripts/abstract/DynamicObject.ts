@@ -1,6 +1,6 @@
 import { Graphics } from "pixi.js";
 
-export abstract class ActiveObject {
+export abstract class DynamicObject {
   private _isLoaded: boolean;
   private _graphics: Graphics;
   private _color: number;

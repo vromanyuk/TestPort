@@ -5,5 +5,6 @@ export interface StaticObjectParameters {
   graphics: Graphics,
   width: number,
   height: number,
-  widthStroke: number
+  widthStroke: number,
+  alpha: number
 }

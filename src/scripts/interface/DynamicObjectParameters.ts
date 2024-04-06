@@ -1,6 +1,6 @@
 import { Graphics } from "pixi.js";
 
-export interface ActiveObjectParameters {
+export interface DynamicObjectParameters {
   isLoaded: boolean,
   color: number,
   alpha: number,
