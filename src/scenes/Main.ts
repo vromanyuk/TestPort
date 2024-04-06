@@ -1,10 +1,10 @@
 import { Application, Graphics } from 'pixi.js';
-import { Ship } from '../scripts/entities/Ship';
-import { Pier } from '../scripts/entities/Pier';
+import { ShipFactory } from '../scripts/components/ShipFactory';
+import { PierFactory } from '../scripts/components/PierFactory';
 
 export class MainScene {
   private app: Application;
-  private ship: Graphics = new Ship(10, "Black Pearl", false).graphics;
+  private ship: Graphics = ShipFactory.createShip().getGraphics();
 
   constructor(app: Application) {
     this.app = app;
@@ -12,7 +12,7 @@ export class MainScene {
   }
 
   private setup(): void {
-    const pierOnStage = new Pier('Pier-0', '#FFD800', true).graphics;
+    const pierOnStage: Graphics = PierFactory.createPier().getGraphics();
     this.app.stage.addChild(this.ship);
     this.app.stage.addChild(pierOnStage);
     this.ship.x = this.app.canvas.width - this.ship.width;
