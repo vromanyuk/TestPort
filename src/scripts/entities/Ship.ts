@@ -1,9 +1,11 @@
 import { Graphics } from "pixi.js";
 import { DynamicObject } from '../abstract/DynamicObject';
 import { Position } from "../interface/Position";
+import { Pier } from "./Pier";
 
 export class Ship extends DynamicObject {
   private _speed: number;
+  private _pier: Pier = null;
 
   constructor(
     isLoaded: boolean, 
@@ -18,6 +20,8 @@ export class Ship extends DynamicObject {
 
   setSpeed(value: number):void { this._speed = value; }
   getSpeed(): number { return this._speed; }
+  setPier(value: Pier): void { this._pier = value; }
+  getPier(): Pier { return this._pier; }
 
   moveTop() {
     this.setVertical(this.getVertical() + this._speed);

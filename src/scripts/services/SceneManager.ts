@@ -15,6 +15,9 @@ export class SceneManager {
     this._startShipPosition = startShipPosition;
   }
 
+  getShips(): Ship[] { return this._ships; }
+  getPiers(): Pier[] { return this._piers; }
+
   addShip(ship: Ship): void {
     const shipOnScene = ship.getGraphics();
     this._ships.push(ship);
@@ -41,7 +44,7 @@ export class SceneManager {
     pierOnScene.y = position.y;
   }
 
-  addElement<T extends StaticObject>(element: T, position: Position): void {
+  addStaticElement<T extends StaticObject>(element: T, position: Position): void {
     const elementOnScene = element.getGraphics();
     this._app.stage.addChild(elementOnScene);
     elementOnScene.x = position.x;
