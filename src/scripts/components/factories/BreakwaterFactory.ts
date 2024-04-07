@@ -14,7 +14,7 @@ export class BreakwaterFactory {
       widthStroke: breakwaterConfig.widthStroke,
       alpha: breakwaterConfig.back
     };
-    breakwaterValue.graphics = RectDrawing.staticObjectDraw(breakwaterValue);
+    breakwaterValue.graphics = RectDrawing.draw(breakwaterValue);
     return new Breakwater(breakwaterValue.graphics, breakwaterValue.color);
   }
 }

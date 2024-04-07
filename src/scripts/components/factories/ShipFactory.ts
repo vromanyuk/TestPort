@@ -3,14 +3,15 @@ import { RectDrawing } from "../RectDrawing";
 import { Graphics } from "pixi.js";
 import { DynamicObjectParameters } from "../../interface/DynamicObjectParameters";
 import { shipConfig } from '../../utils/Configs';
+import { Position } from "../../interface/Position";
 
 export class ShipFactory {
-  static createShip(): Ship {
+  static createShip(x: number, y: number, speed: number): Ship {
     const isLoaded: boolean = Math.random() > 0.5;
     const color = isLoaded ? shipConfig.color.red : shipConfig.color.green;
     const alpha = isLoaded ? shipConfig.back.with : shipConfig.back.without;
+    const movement: Position = { x: x, y: y };
     const shipValue: DynamicObjectParameters = {
-      isLoaded: isLoaded,
       color: color,
       alpha: alpha,
       graphics: new Graphics(),
@@ -18,7 +19,13 @@ export class ShipFactory {
       height: shipConfig.height,
       widthStroke: shipConfig.widthStroke
     }
-    shipValue.graphics = RectDrawing.dynamicObjectDraw(shipValue);
-    return new Ship(shipValue.isLoaded, shipValue.graphics, shipValue.color);
+    shipValue.graphics = RectDrawing.draw(shipValue);
+    return new Ship(
+      isLoaded, 
+      shipValue.graphics, 
+      shipValue.color, 
+      movement,
+      speed
+    );
   }
 }

@@ -1,28 +1,38 @@
 import { Graphics } from "pixi.js";
 import { DynamicObject } from '../abstract/DynamicObject';
-import { Movement } from "../interface/Movement";
+import { Position } from "../interface/Position";
 
 export class Ship extends DynamicObject {
-  constructor(isLoaded: boolean, graphics: Graphics, color: number, movement: Movement) {
+  private _speed: number;
+
+  constructor(
+    isLoaded: boolean, 
+    graphics: Graphics, 
+    color: number, 
+    movement: Position, 
+    speed: number
+  ) {
     super(isLoaded, graphics, color, movement);
-    movement.horizontal = 0;
-    movement.vertical = 0;
+    this._speed = speed;
   }
 
-  moveTop(distance: number) {
-    this.setVertical(this.getVertical() + distance);
+  setSpeed(value: number):void { this._speed = value; }
+  getSpeed(): number { return this._speed; }
+
+  moveTop() {
+    this.setVertical(this.getVertical() + this._speed);
     this.getGraphics().y = this.getVertical();
   }
-  moveBottom(distance: number) {
-    this.setVertical(this.getVertical() - distance);
+  moveBottom() {
+    this.setVertical(this.getVertical() - this._speed);
     this.getGraphics().y = this.getVertical();
   }
-  moveLeft(distance: number) {
-    this.setHorizontal(this.getHorizontal() - distance);
+  moveLeft() {
+    this.setHorizontal(this.getHorizontal() - this._speed);
     this.getGraphics().x = this.getHorizontal();
   }
-  moveRight(distance: number) {
-    this.setHorizontal(this.getHorizontal() + distance);
+  moveRight() {
+    this.setHorizontal(this.getHorizontal() + this._speed);
     this.getGraphics().x = this.getHorizontal();
   }
 }

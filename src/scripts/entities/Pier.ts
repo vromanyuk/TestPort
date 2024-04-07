@@ -1,11 +1,9 @@
 import { DynamicObject } from '../abstract/DynamicObject';
 import { Graphics } from 'pixi.js';
-import { Movement } from '../interface/Movement';
+import { Position } from '../interface/Position';
 
 export class Pier extends DynamicObject {
-  constructor(isLoaded: boolean, graphics: Graphics, color: number, movement: Movement) {
+  constructor(isLoaded: boolean, graphics: Graphics, color: number, movement: Position) {
     super(isLoaded, graphics, color, movement);
-    movement.horizontal = 0;
-    movement.vertical = 0;
   }
 }

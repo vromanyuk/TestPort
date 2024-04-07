@@ -3,6 +3,7 @@ import { ShipFactory } from '../scripts/components/factories/ShipFactory';
 import { PierFactory } from '../scripts/components/factories/PierFactory';
 import { Pier } from '../scripts/entities/Pier';
 import { BreakwaterFactory } from '../scripts/components/factories/BreakwaterFactory';
+import { Ship } from '../scripts/entities/Ship';
 
 export class MainScene {
   private _app: Application;
@@ -14,28 +15,38 @@ export class MainScene {
     this.setup();
   }
 
-  private setup(): void {
-    for(let i = 0; i < 4; i++) {
-      this._piers.push(PierFactory.createPier());
-      const pierOnStage: Graphics = this._piers[i].getGraphics();
-      this._app.stage.addChild(pierOnStage);
-      pierOnStage.x = 3;
-      pierOnStage.y = i * (pierOnStage.height + this._space);
-    };
-    const breakwaterOnStageTop = BreakwaterFactory.createBreakwater().getGraphics();
-    this._app.stage.addChild(breakwaterOnStageTop);
-    breakwaterOnStageTop.x = 300;
-    const breakwaterOnStageBottom = BreakwaterFactory.createBreakwater().getGraphics();
-    this._app.stage.addChild(breakwaterOnStageBottom);
-    breakwaterOnStageBottom.x = 300;
-    breakwaterOnStageBottom.y = this._app.canvas.height - breakwaterOnStageBottom.height;
-    const ship: Graphics = ShipFactory.createShip().getGraphics();
-    this._app.stage.addChild(ship);
-    ship.x = this._app.canvas.width - ship.width;
-    ship.y = this._app.canvas.height / 2 - ship.width / 2;
-  }
-
   update() {
     // this.ship.x -= 1;
+  }
+
+  private setup(): void {
+    for(let i = 0; i < 4; i++) {
+      this._piers.push(PierFactory.createPier(0, 0));
+      const pierOnStage: Graphics = this._piers[i].getGraphics();
+      this.addStaticObjectOnScene(
+        pierOnStage, 3, (i * (pierOnStage.height + this._space))
+      );
+    };
+    const breakwaterOnStageTop = BreakwaterFactory.createBreakwater().getGraphics();
+    this.addStaticObjectOnScene(breakwaterOnStageTop, 300);
+    const breakwaterOnStageBottom = BreakwaterFactory.createBreakwater().getGraphics();
+    this.addStaticObjectOnScene(
+      breakwaterOnStageBottom, 300, (this._app.canvas.height - breakwaterOnStageBottom.height)
+    );
+    const ship: Ship = ShipFactory.createShip(0, 0, 1);
+    const shipContainer: Graphics = ship.getGraphics();
+    this._app.stage.addChild(shipContainer);
+    shipContainer.x = this._app.canvas.width - shipContainer.width;
+    shipContainer.y = this._app.canvas.height / 2 - shipContainer.width / 2;
+  }
+
+  private addStaticObjectOnScene(
+    element: Graphics, 
+    positionX: number = 0, 
+    positionY: number = 0
+  ) {
+    this._app.stage.addChild(element);
+    element.x = positionX;
+    element.y = positionY;
   }
 }

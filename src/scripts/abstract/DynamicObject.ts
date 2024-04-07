@@ -1,13 +1,13 @@
 import { Graphics } from "pixi.js";
-import { Movement } from "../interface/Movement";
+import { Position } from "../interface/Position";
 
 export abstract class DynamicObject {
   private _isLoaded: boolean;
   private _graphics: Graphics;
   private _color: number;
-  private _movement: Movement
+  private _movement: Position
 
-  constructor(isLoaded: boolean, graphics: Graphics, color: number, movement: Movement) {
+  constructor(isLoaded: boolean, graphics: Graphics, color: number, movement: Position) {
     this._isLoaded = isLoaded;
     this._graphics = graphics;
     this._color = color;
@@ -20,8 +20,8 @@ export abstract class DynamicObject {
   setGraphics(value: Graphics): void { this._graphics = value; }
   getColor(): number { return this._color; }
   setColor(value: number): void { this._color = value; }
-  setVertical(value: number): void { this._movement.vertical = value; }
-  setHorizontal(value: number): void { this._movement.horizontal = value; }
-  getVertical(): number { return this._movement.vertical; }
-  getHorizontal(): number { return this._movement.horizontal; }
+  setVertical(value: number): void { this._movement.y = value; }
+  setHorizontal(value: number): void { this._movement.x = value; }
+  getVertical(): number { return this._movement.y; }
+  getHorizontal(): number { return this._movement.x; }
 }

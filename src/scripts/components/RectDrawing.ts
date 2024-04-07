@@ -3,39 +3,12 @@ import{ DynamicObjectParameters } from '../interface/DynamicObjectParameters'
 import { StaticObjectParameters } from "../interface/StaticObjectParameters";
 
 export class RectDrawing {
-  static dynamicObjectDraw(parameters: DynamicObjectParameters): Graphics {
-    return RectDrawing.setupValue(
-      parameters.graphics, 
-      parameters.width, 
-      parameters.height, 
-      parameters.color, 
-      parameters.widthStroke, 
-      parameters.alpha
-    );
-  }
-
-  static staticObjectDraw(parameters: StaticObjectParameters): Graphics {
-    return RectDrawing.setupValue(
-      parameters.graphics, 
-      parameters.width, 
-      parameters.height, 
-      parameters.color, 
-      parameters.widthStroke, 
-      parameters.alpha
-    );
-  }
-
-  private static setupValue(
-    graphics: Graphics, 
-    width: number, 
-    height:number, 
-    color:number, 
-    widthStroke: number, 
-    alpha:number
-  ): Graphics {
-    graphics.rect(0, 0, width, height);
-    graphics.stroke({ width: widthStroke, color: color });
-    graphics.fill({ color: color, alpha: alpha });
-    return graphics
+  static draw(parameters: DynamicObjectParameters): Graphics;
+  static draw(parameters: StaticObjectParameters): Graphics {
+    let graphics = parameters.graphics;
+    graphics.rect(0, 0, parameters.width, parameters.height);
+    graphics.stroke({ width: parameters.widthStroke, color: parameters.color });
+    graphics.fill({ color: parameters.color, alpha: parameters.alpha });
+    return graphics;
   }
 }

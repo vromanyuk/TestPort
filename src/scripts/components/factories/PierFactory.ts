@@ -3,11 +3,13 @@ import { Pier } from '../../entities/Pier';
 import { DynamicObjectParameters } from '../../interface/DynamicObjectParameters';
 import { RectDrawing } from '../RectDrawing';
 import { pierConfig } from '../../utils/Configs';
+import { Position } from '../../interface/Position';
 
 export class PierFactory {
-  static createPier(): Pier {
+  static createPier(x: number, y: number): Pier {
+    const movement: Position = { x: x, y: y };
+    const isLoaded = pierConfig.back !== 0;
     const pierValue: DynamicObjectParameters = {
-      isLoaded: pierConfig.back !== 0,
       color: pierConfig.color,
       alpha: pierConfig.back,
       graphics: new Graphics(),
@@ -15,7 +17,12 @@ export class PierFactory {
       height: pierConfig.height,
       widthStroke: pierConfig.widthStroke
     };
-    pierValue.graphics = RectDrawing.dynamicObjectDraw(pierValue);
-    return new Pier(pierValue.isLoaded, pierValue.graphics, pierValue.color);
+    pierValue.graphics = RectDrawing.draw(pierValue);
+    return new Pier(
+      isLoaded, 
+      pierValue.graphics, 
+      pierValue.color, 
+      movement
+    );
   }
 }
