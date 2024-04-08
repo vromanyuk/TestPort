@@ -1,15 +1,16 @@
 export const shipConfig =  {
   color: {
-    red: 0x35cc5a,
-    green: 0xde3249
+    red: 0xde3249,
+    green: 0x35cc5a
   },
   back: {
-    with: 0,
-    without: 1
+    with: 1,
+    without: 0
   },
   width: 80,
   height: 30,
-  widthStroke: 4
+  widthStroke: 4,
+  speed: 20
 };
 
 export const pierConfig = {
@@ -26,4 +27,29 @@ export const breakwaterConfig = {
   width: 10,
   height: 270,
   widthStroke: 4
-}
+};
+
+export const positionBreakwaterTop = {
+  x: 300,
+  y: 0,
+};
+
+export const positionBreakwaterBottom = {
+  x: 300,
+  y: 498,
+};
+
+export const startShipPoint = {
+  x: 944,
+  y: 340,
+};
+
+export const waitingPointFullShip = {
+  x: 344,
+  y: 250
+};
+
+export const waitingPointEmptyShip = {
+  x: 344,
+  y: 508
+};

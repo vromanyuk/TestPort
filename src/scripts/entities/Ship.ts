@@ -39,4 +39,5 @@ export class Ship extends DynamicObject {
     this.setHorizontal(this.getHorizontal() + this._speed);
     this.getGraphics().x = this.getHorizontal();
   }
+  stop() {}
 }

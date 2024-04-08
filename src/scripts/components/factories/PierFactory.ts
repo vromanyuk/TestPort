@@ -6,7 +6,7 @@ import { pierConfig } from '../../utils/Configs';
 import { Position } from '../../interface/Position';
 
 export class PierFactory {
-  static createPier(x: number, y: number, busy: boolean): Pier {
+  static createPier(x: number, y: number, busy: boolean, pointMooring: Position): Pier {
     const movement: Position = { x: x, y: y };
     const isLoaded = pierConfig.back !== 0;
     const pierValue: DynamicObjectParameters = {
@@ -23,7 +23,8 @@ export class PierFactory {
       pierValue.graphics, 
       pierValue.color, 
       movement,
-      busy
+      busy,
+      pointMooring
     );
   }
 }

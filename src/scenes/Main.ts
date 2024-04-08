@@ -1,52 +1,66 @@
-import { Application, Graphics } from 'pixi.js';
-import { ShipFactory } from '../scripts/components/factories/ShipFactory';
+import { Application } from 'pixi.js';
 import { PierFactory } from '../scripts/components/factories/PierFactory';
-import { Pier } from '../scripts/entities/Pier';
 import { BreakwaterFactory } from '../scripts/components/factories/BreakwaterFactory';
-import { Ship } from '../scripts/entities/Ship';
-import { shipConfig, pierConfig, breakwaterConfig } from '../scripts/utils/Configs';
+import { shipConfig, pierConfig, positionBreakwaterTop, positionBreakwaterBottom } from '../scripts/utils/Configs';
 import { SceneManager } from '../scripts/services/SceneManager';
 import { Position } from '../scripts/interface/Position';
+import { CollisionDetector } from '../scripts/services/CollisionDetector';
+import { AnimationManager } from '../scripts/services/AnimationManager';
+import { GameManager } from '../scripts/services/GameManager';
+import * as TWEEN from "@tweenjs/tween.js"
 
 export class MainScene {
   private static NUMBER_PIERS: number = 4; 
   private _app: Application;
   private _sceneManager: SceneManager;
+  private _collisionDetector: CollisionDetector;
+  private _animationManager: AnimationManager;
+  private _gameManager: GameManager;
   private _space: number = 10;
 
   constructor(app: Application) {
     this._app = app;
     this.setup();
+    requestAnimationFrame((time) => this.animate(time));
+  }
+
+  animate(time: number) {
+    requestAnimationFrame((time) => this.animate(time));
+    TWEEN.update(time);
   }
 
   update() {
-    // this.ship.x -= 1;
+    this._gameManager.update();
   }
 
   private setup(): void {
-    const startShipPosition: Position = {
-      x: this._app.canvas.width - shipConfig.width,
-      y: this._app.canvas.height / 2 - shipConfig.width / 2
-    };
-    this._sceneManager = new SceneManager(this._app, startShipPosition);
+    this._sceneManager = new SceneManager(this._app);
     for(let i = 0; i < MainScene.NUMBER_PIERS; i++) {
       const pierPosition: Position = {
         x: 3,
         y: i * (pierConfig.height + this._space)
       };
-      this._sceneManager.addPier(PierFactory.createPier(0, 0, false), pierPosition);
+      const pointMooring: Position = {
+        x: pierPosition.x + pierConfig.width + pierConfig.widthStroke,
+        y: pierPosition.y - this._space + pierConfig.height/2
+      }
+      this._sceneManager.addPier(
+        PierFactory.createPier(0, 0, false, pointMooring), 
+        pierPosition
+      );
     };
-    this._sceneManager.addStaticElement(BreakwaterFactory.createBreakwater(), { x: 300, y: 0});
-    const positionBreakwaterBottom: Position = {
-      x: 300,
-      y: this._app.canvas.height - breakwaterConfig.height
-    };
-    this._sceneManager.addStaticElement(BreakwaterFactory.createBreakwater(), positionBreakwaterBottom);
+    this._sceneManager.addStaticElement(
+      BreakwaterFactory.createBreakwater(), 
+      positionBreakwaterTop
+    );
+    this._sceneManager.addStaticElement(
+      BreakwaterFactory.createBreakwater(), 
+      positionBreakwaterBottom
+    );
 
-    const ship: Ship = ShipFactory.createShip(0, 0, 1);
-    const shipContainer: Graphics = ship.getGraphics();
-    this._app.stage.addChild(shipContainer);
-    shipContainer.x = this._app.canvas.width - shipContainer.width;
-    shipContainer.y = this._app.canvas.height / 2 - shipContainer.width / 2;
+    this._collisionDetector = new CollisionDetector(this._sceneManager.getElements());
+    this._animationManager = new AnimationManager(this._collisionDetector);
+    this._gameManager = new GameManager(this._sceneManager, this._animationManager);
+    this._gameManager.initializeGame();
   }
 }
