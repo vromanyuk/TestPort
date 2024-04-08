@@ -24,7 +24,7 @@ export class GameManager {
   }
 
   update(): void {
-
+    
   }
 
   private spawnShip(): void {
