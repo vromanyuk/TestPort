@@ -4,6 +4,7 @@ import { Graphics } from "pixi.js";
 import { DynamicObjectParameters } from "../../interface/DynamicObjectParameters";
 import { shipConfig } from "../../utils/Configs";
 import { Position } from "../../interface/Position";
+import { Direction } from "../../entities/Direction"
 
 export class ShipFactory {
   static createShip(x: number, y: number, speed: number): Ship {
@@ -27,7 +28,8 @@ export class ShipFactory {
       shipValue.graphics,
       shipValue.color,
       movement,
-      speed
+      speed,
+      Direction.Left
     );
   }
 }

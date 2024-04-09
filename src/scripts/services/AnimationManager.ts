@@ -11,6 +11,7 @@ import {
 } from "../utils/Configs";
 import { Ship } from "../entities/Ship";
 import { CargoLine } from "../components/CargoLine";
+import { Direction } from "../entities/Direction";
 
 export class AnimationManager {
   private _collisionDetector: CollisionDetector;
@@ -27,19 +28,23 @@ export class AnimationManager {
     let from: Position = { x: element.x, y: element.y };
     let to: Position = { x: this._pointToExit.x, y: element.y };
     let duration: number = this.getDuration(from, to);
+    await this.rotate(Direction.Right, element);
     await this.aniamtion(element, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, this._pointToExit);
+    await this.rotate(Direction.Down, element);
     await this.aniamtion(element, this._pointToExit, duration);
 
     from = { x: element.x, y: element.y };
     to = { x: startShipPoint.x, y: element.y };
     duration = this.getDuration(from, to);
+    await this.rotate(Direction.Right, element);
     await this.aniamtion(element, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, startShipPoint);
+    await this.rotate(Direction.Up, element);
     await this.aniamtion(element, startShipPoint, duration);
   }
 
@@ -47,10 +52,12 @@ export class AnimationManager {
     let from: Position = { x: element.x, y: element.y };
     let to: Position = { x: element.x, y: waitingPointFullShip.y };
     let duration: number = this.getDuration(from, to);
+    await this.rotate(Direction.Up, element);
     await this.aniamtion(element, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, waitingPointFullShip);
+    await this.rotate(Direction.Left, element);
     await this.aniamtion(element, waitingPointFullShip, duration);
   }
 
@@ -58,10 +65,12 @@ export class AnimationManager {
     let from: Position = { x: element.x, y: element.y };
     let to: Position = { x: element.x, y: waitingPointEmptyShip.y };
     let duration: number = this.getDuration(from, to);
+    await this.rotate(Direction.Down, element);
     await this.aniamtion(element, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, waitingPointEmptyShip);
+    await this.rotate(Direction.Left, element);
     await this.aniamtion(element, waitingPointEmptyShip, duration);
   }
 
@@ -73,10 +82,14 @@ export class AnimationManager {
     let from: Position = { x: element.x, y: element.y };
     let to: Position = { x: element.x, y: this._pointChoosePier.y };
     let duration: number = this.getDuration(from, to);
+    ship.getIsLoaded()
+      ? await this.rotate(Direction.Down, element)
+      : await this.rotate(Direction.Up, element);
     await this.aniamtion(element, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, this._pointChoosePier);
+    await this.rotate(Direction.Left, element);
     await this.aniamtion(element, this._pointChoosePier, duration);
 
     from = { x: element.x, y: element.y };
@@ -95,11 +108,13 @@ export class AnimationManager {
     let to: Position;
     let duration: number = this.getDuration(from, this._pointChoosePier);
     await this.aniamtion(element, this._pointChoosePier, duration);
+    await this.rotate(Direction.Up, element);
 
     from = { x: element.x, y: element.y };
     to = { x: this._pointChoosePier.x, y: pier.getPointMooring().y };
     duration = this.getDuration(from, to);
     await this.aniamtion(element, to, duration);
+    await this.rotate(Direction.Left, element);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, pier.getPointMooring());
@@ -110,8 +125,7 @@ export class AnimationManager {
   private aniamtion(
     element: Graphics,
     position: Position,
-    duration: number,
-    onComplete = () => {}
+    duration: number
   ): Promise<void> {
     return new Promise((resolve) => {
       const tween = new TWEEN.Tween(element)
@@ -125,6 +139,14 @@ export class AnimationManager {
           resolve();
         })
         .start();
+    });
+  }
+
+  private rotate(to: Direction, ship: Graphics): Promise<void> {
+    return new Promise((resolve) => {
+      const radians: number = (to * Math.PI) / 180;
+      ship.rotation = radians;
+      resolve();
     });
   }
 
