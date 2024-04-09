@@ -12,6 +12,8 @@ export class ShipFactory {
     const alpha = isLoaded ? shipConfig.back.with : shipConfig.back.without;
     const movement: Position = { x: x, y: y };
     const shipValue: DynamicObjectParameters = {
+      x: 0,
+      y: 0,
       color: color,
       alpha: alpha,
       graphics: new Graphics(),

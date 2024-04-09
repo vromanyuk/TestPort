@@ -6,7 +6,7 @@ export class RectDrawing {
   static draw(parameters: DynamicObjectParameters): Graphics;
   static draw(parameters: StaticObjectParameters): Graphics {
     let graphics = parameters.graphics;
-    graphics.rect(0, 0, parameters.width, parameters.height);
+    graphics.rect(parameters.x, parameters.y, parameters.width, parameters.height);
     graphics.stroke({ width: parameters.widthStroke, color: parameters.color });
     graphics.fill({ color: parameters.color, alpha: parameters.alpha });
     return graphics;

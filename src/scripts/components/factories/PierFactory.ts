@@ -10,6 +10,8 @@ export class PierFactory {
     const movement: Position = { x: x, y: y };
     const isLoaded = pierConfig.back !== 0;
     const pierValue: DynamicObjectParameters = {
+      x: 0,
+      y: 0,
       color: pierConfig.color,
       alpha: pierConfig.back,
       graphics: new Graphics(),

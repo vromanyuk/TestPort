@@ -7,6 +7,8 @@ import { RectDrawing } from "../RectDrawing";
 export class BreakwaterFactory {
   static createBreakwater(): Breakwater {
     const breakwaterValue: StaticObjectParameters = {
+      x: 0,
+      y: 0,
       color: breakwaterConfig.color,
       graphics: new Graphics,
       width: breakwaterConfig.width,

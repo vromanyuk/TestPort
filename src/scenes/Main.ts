@@ -8,6 +8,9 @@ import { CollisionDetector } from '../scripts/services/CollisionDetector';
 import { AnimationManager } from '../scripts/services/AnimationManager';
 import { GameManager } from '../scripts/services/GameManager';
 import * as TWEEN from "@tweenjs/tween.js"
+import { WaitingLine } from '../scripts/components/WaitingLine';
+import { RouteLine } from '../scripts/components/RouteLine';
+import { CargoLine } from '../scripts/components/CargoLine';
 
 export class MainScene {
   private static NUMBER_PIERS: number = 4; 
@@ -16,6 +19,9 @@ export class MainScene {
   private _collisionDetector: CollisionDetector;
   private _animationManager: AnimationManager;
   private _gameManager: GameManager;
+  private _waitingLine: WaitingLine;
+  private _routeLine: RouteLine;
+  private _cargoLine: CargoLine;
   private _space: number = 10;
 
   constructor(app: Application) {
@@ -58,9 +64,17 @@ export class MainScene {
       positionBreakwaterBottom
     );
 
+    this._waitingLine = new WaitingLine();
+    this._cargoLine = new CargoLine();
+    this._routeLine = new RouteLine();
     this._collisionDetector = new CollisionDetector(this._sceneManager.getElements());
-    this._animationManager = new AnimationManager(this._collisionDetector);
-    this._gameManager = new GameManager(this._sceneManager, this._animationManager);
+    this._animationManager = new AnimationManager(
+      this._collisionDetector, this._cargoLine
+    );
+    this._gameManager = new GameManager(
+      this._sceneManager, this._animationManager,
+      this._waitingLine, this._cargoLine,this._routeLine
+    );
     this._gameManager.initializeGame();
   }
 }

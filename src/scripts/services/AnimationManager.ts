@@ -3,122 +3,116 @@ import * as TWEEN from "@tweenjs/tween.js"
 import { Position } from "../interface/Position";
 import { CollisionDetector } from "./CollisionDetector";
 import { Pier } from "../entities/Pier";
-import { shipConfig, waitingPointFullShip, waitingPointEmptyShip } from "../utils/Configs"
+import { shipConfig, startShipPoint, waitingPointFullShip, waitingPointEmptyShip } from "../utils/Configs"
+import { Ship } from "../entities/Ship";
+import { CargoLine } from "../components/CargoLine";
 
 export class AnimationManager {
   private _collisionDetector: CollisionDetector;
-  private _second: Position = { x: 220, y: 340 };
+  private _cargoLine: CargoLine;
+  private _pointChoosePier: Position = { x: 220, y: 340 };
+  private _pointToExit: Position = { x: 180, y: 380 };
 
-  constructor(collisionDetector: CollisionDetector) {
+  constructor(collisionDetector: CollisionDetector, cargoLine: CargoLine) {
     this._collisionDetector = collisionDetector;
+    this._cargoLine = cargoLine;
+  }
+
+  animationToExit(element: Graphics, pier: Pier): void {
+    let from: Position = { x: element.x, y: element.y };
+    let to: Position = { x: this._pointToExit.x, y: element.y };
+    let duration: number = this.getDuration(from,to);
+
+    this.aniamtion(element, to, duration, () => {
+      from = { x: element.x, y: element.y };
+      duration = this.getDuration(from, this._pointToExit);
+
+      this.aniamtion(element, this._pointToExit, duration, () => {
+        from = { x: element.x, y: element.y };
+        to = { x: startShipPoint.x, y: element.y };
+        duration = this.getDuration(from, to);
+
+        this.aniamtion(element, to, duration, () => {
+          from = { x: element.x, y: element.y };
+          duration = this.getDuration(from, startShipPoint);
+
+          this.aniamtion(element, startShipPoint, duration);
+        });
+      });
+    });
   }
 
   animationToFullShipWaiting(element: Graphics): void {
-    this.aniamtion(
-      element, 
-      { x: element.x, y: waitingPointFullShip.y },
-      this.getDuration(
-        { x: element.x, y: element.y },
-        { x: element.x, y: waitingPointFullShip.y }
-      ),
-      () => {
-        this.aniamtion(
-          element,
-          waitingPointFullShip,
-          this.getDuration(
-            { x: element.x, y: element.y },
-            waitingPointFullShip
-          )
-        );
-      }
-    );
+    let from: Position = { x: element.x, y: element.y };
+    let to: Position = { x: element.x, y: waitingPointFullShip.y };
+    let duration: number = this.getDuration(from, to);
+
+    this.aniamtion(element, to, duration, () => {
+      from = { x: element.x, y: element.y };
+      duration = this.getDuration(from, waitingPointFullShip);
+
+      this.aniamtion(element, waitingPointFullShip, duration);
+    });
   }
 
   animationToEmptyShipWaiting(element: Graphics): void {
-    this.aniamtion(
-      element, 
-      { x: element.x, y: waitingPointEmptyShip.y },
-      this.getDuration(
-        { x: element.x, y: element.y },
-        { x: element.x, y: waitingPointEmptyShip.y }
-      ),
-      () => {
-        this.aniamtion(
-          element,
-          waitingPointEmptyShip,
-          this.getDuration(
-            { x: element.x, y: element.y },
-            waitingPointEmptyShip
-          )
-        );
-      }
-    );
+    let from: Position = { x: element.x, y: element.y };
+    let to: Position = { x: element.x, y: waitingPointEmptyShip.y };
+    let duration: number = this.getDuration(from,to);
+
+    this.aniamtion(element, to, duration, () => {
+      from = { x: element.x, y: element.y };
+      duration = this.getDuration(from, waitingPointEmptyShip);
+
+      this.aniamtion(element, waitingPointEmptyShip, duration);
+    });
   }
 
-  aniamtionToPierFromWaitingPosition(element: Graphics, pier: Pier): void {
-    this.aniamtion(
-      element,
-      { x: element.x, y: this._second.y },
-      this.getDuration(
-        { x: element.x, y: element.y },
-        { x: element.x, y: this._second.y }
-      ),
-      () => {
-        this.aniamtion(
-          element,
-          this._second,
-          this.getDuration({ x: element.x, y: element.y }, this._second),
-          () => {
-            this.aniamtion(
-              element, 
-              { x: this._second.x, y: pier.getPointMooring().y },
-              this.getDuration(
-                { x: element.x, y: element.y }, 
-                { x: this._second.x, y: pier.getPointMooring().y }
-              ),
-              () => {
-                this.aniamtion(
-                  element, 
-                  pier.getPointMooring(),
-                  this.getDuration(
-                    { x: element.x, y: element.y }, 
-                    pier.getPointMooring()
-                  )
-                );
-              }
-            );
-          }
-        );
-      }
-    );
+  aniamtionToPierFromWaitingPosition(ship: Ship, pier: Pier): void {
+    const element: Graphics = ship.getGraphics();
+    let from: Position = { x: element.x, y: element.y };
+    let to: Position = { x: element.x, y: this._pointChoosePier.y };
+    let duration: number = this.getDuration(from, to);
+
+    this.aniamtion(element, to,duration, () => {
+      from = { x: element.x, y: element.y };
+      duration = this.getDuration(from, this._pointChoosePier);
+
+      this.aniamtion(element, this._pointChoosePier, duration, () => {
+        from = { x: element.x, y: element.y };
+        to = { x: this._pointChoosePier.x, y: pier.getPointMooring().y };
+        duration = this.getDuration(from, to);
+
+        this.aniamtion(element, to, duration, () => {
+          from = { x: element.x, y: element.y };
+          duration = this.getDuration(from, pier.getPointMooring());
+
+          this.aniamtion(element, pier.getPointMooring(), duration);
+        });
+      });
+    });
   }
 
-  aniamtionToPier(element: Graphics, pier: Pier): void {
-    this.aniamtion(
-      element, 
-      this._second, 
-      this.getDuration( { x: element.x, y: element.y }, this._second ),
-      () => {
-        this.aniamtion(
-          element, 
-          { x: this._second.x, y: pier.getPointMooring().y },
-          this.getDuration(
-            { x: element.x, y: element.y }, 
-            { x: this._second.x, y: pier.getPointMooring().y }
-          ),
-          () => {
-            this.aniamtion(
-              element, 
-              pier.getPointMooring(),
-              this.getDuration(
-                { x: element.x, y: element.y }, 
-                pier.getPointMooring()
-              )
-            );
-          }
-        );
-      }
-    );
+  aniamtionToPier(ship: Ship, pier: Pier): void {
+    const element: Graphics = ship.getGraphics();
+    let from: Position = { x: element.x, y: element.y };
+    let to: Position;
+    let duration: number = this.getDuration(from, this._pointChoosePier);
+
+    this.aniamtion(element, this._pointChoosePier, duration, () => {
+      from = { x: element.x, y: element.y };
+      to = { x: this._pointChoosePier.x, y: pier.getPointMooring().y };
+      duration = this.getDuration(from, to);
+
+      this.aniamtion(element, to, duration, () => {
+        from = { x: element.x, y: element.y };
+        duration = this.getDuration(from, pier.getPointMooring());
+
+        this.aniamtion(element, pier.getPointMooring(), duration, () => {
+          this._cargoLine.addCargoShip(ship);
+        });
+      });
+    });
   }
 
   private aniamtion(

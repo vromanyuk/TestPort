@@ -15,12 +15,14 @@ export class GameManager {
   private _cargoLine: CargoLine;
   private _animationManager: AnimationManager;
 
-  constructor(sceneManager: SceneManager, animationManager: AnimationManager) {
+  constructor(sceneManager: SceneManager, animationManager: AnimationManager,
+    waitingLine: WaitingLine, cargoLine: CargoLine, routeLine: RouteLine
+  ) {
     this._sceneManager = sceneManager;
     this._animationManager = animationManager;
-    this._waitingLine = new WaitingLine();
-    this._routeLine = new RouteLine();
-    this._cargoLine = new CargoLine();
+    this._waitingLine = waitingLine;
+    this._cargoLine = cargoLine;
+    this._routeLine = routeLine;
   }
 
   initializeGame(): void {
@@ -28,6 +30,14 @@ export class GameManager {
   }
 
   update(): void {
+    const cargoShips: Ship[] = this._cargoLine.getCargoShips();
+    if(cargoShips.length > 0) {
+      for(let i = 0; i < cargoShips.length; i++) {
+        const ship = this._cargoLine.removeCargoShip();
+        this.cargoProcess(ship);
+      }
+    }
+
     if(this._waitingLine.getFullShipsLine().length > 0) {
       let ship: Ship = this._waitingLine.getFullShipsLine()[0];
       const pier: Pier = this.getFreePierForFullShip(ship);
@@ -35,7 +45,7 @@ export class GameManager {
         ship = this._waitingLine.removeFullShip();
         ship.setPier(pier);
         pier.setStateBusy(true);
-        this._animationManager.aniamtionToPierFromWaitingPosition(ship.getGraphics(), pier)
+        this._animationManager.aniamtionToPierFromWaitingPosition(ship, pier)
       }
     }
     if(this._waitingLine.getEmptyShipsLine().length > 0) {
@@ -45,7 +55,7 @@ export class GameManager {
         ship = this._waitingLine.removeEmptyShip();
         ship.setPier(pier);
         pier.setStateBusy(true);
-        this._animationManager.aniamtionToPierFromWaitingPosition(ship.getGraphics(), pier);
+        this._animationManager.aniamtionToPierFromWaitingPosition(ship, pier);
       }
     }
   }
@@ -68,7 +78,7 @@ export class GameManager {
     if(pier) {
       pier.setStateBusy(true);
       newShip.setPier(pier);
-      this._animationManager.aniamtionToPier(newShip.getGraphics(), pier);
+      this._animationManager.aniamtionToPier(newShip, pier);
       return;
     }
 
@@ -94,5 +104,16 @@ export class GameManager {
   private startAnimationToEmptyShipWaiting(ship: Ship): void {
     this._waitingLine.addEmptyShip(ship);
     this._animationManager.animationToEmptyShipWaiting(ship.getGraphics());
+  }
+
+  private cargoProcess(ship: Ship): void {
+    setTimeout(() => {
+      const pier = ship.getPier();
+      ship.togglerShip();
+      ship.setPier(null);
+      pier.togglerPier();
+      pier.setStateBusy(false)
+      this._animationManager.animationToExit(ship.getGraphics(), pier)
+    }, 5000)
   }
 }

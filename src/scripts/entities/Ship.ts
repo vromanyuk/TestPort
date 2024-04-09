@@ -2,6 +2,9 @@ import { Graphics } from "pixi.js";
 import { DynamicObject } from '../abstract/DynamicObject';
 import { Position } from "../interface/Position";
 import { Pier } from "./Pier";
+import { shipConfig } from "../utils/Configs";
+import { DynamicObjectParameters } from "../interface/DynamicObjectParameters";
+import { RectDrawing } from "../components/RectDrawing";
 
 export class Ship extends DynamicObject {
   private _speed: number;
@@ -23,21 +26,21 @@ export class Ship extends DynamicObject {
   setPier(value: Pier): void { this._pier = value; }
   getPier(): Pier { return this._pier; }
 
-  moveTop() {
-    this.setVertical(this.getVertical() + this._speed);
-    this.getGraphics().y = this.getVertical();
+  togglerShip(): void {
+    this.setIsLoaded(!this.getIsLoaded());
+    const alpha = this.getIsLoaded() ? shipConfig.back.with : shipConfig.back.without;
+
+    const shipValue: DynamicObjectParameters = {
+      x: 0,
+      y: 0,
+      color: this.getColor(),
+      alpha: alpha,
+      graphics: this.getGraphics(),
+      width: this.getGraphics().width,
+      height: this.getGraphics().height,
+      widthStroke: shipConfig.widthStroke
+    }
+    this.getGraphics().clear();
+    this.setGraphics(RectDrawing.draw(shipValue));
   }
-  moveBottom() {
-    this.setVertical(this.getVertical() - this._speed);
-    this.getGraphics().y = this.getVertical();
-  }
-  moveLeft() {
-    this.setHorizontal(this.getHorizontal() - this._speed);
-    this.getGraphics().x = this.getHorizontal();
-  }
-  moveRight() {
-    this.setHorizontal(this.getHorizontal() + this._speed);
-    this.getGraphics().x = this.getHorizontal();
-  }
-  stop() {}
 }
