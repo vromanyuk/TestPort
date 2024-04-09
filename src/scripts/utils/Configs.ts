@@ -40,16 +40,16 @@ export const positionBreakwaterBottom = {
 };
 
 export const startShipPoint = {
-  x: 944,
-  y: 340,
+  x: 984,
+  y: 355,
 };
 
 export const waitingPointFullShip = {
-  x: 344,
-  y: 250,
+  x: 384,
+  y: 265,
 };
 
 export const waitingPointEmptyShip = {
-  x: 344,
-  y: 508,
+  x: 384,
+  y: 525,
 };

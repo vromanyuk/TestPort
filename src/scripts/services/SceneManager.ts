@@ -1,4 +1,4 @@
-import { Application, Graphics } from "pixi.js";
+import { Application, Graphics, Container } from "pixi.js";
 import { Ship } from "../entities/Ship";
 import { Pier } from "../entities/Pier";
 import { Position } from "../interface/Position";
@@ -7,7 +7,7 @@ import { startShipPoint } from "../utils/Configs";
 
 export class SceneManager {
   private _app: Application;
-  private _elements: Graphics[] = [];
+  private _elements: Container[] = [];
   private _ships: Ship[] = [];
   private _piers: Pier[] = [];
 
@@ -21,12 +21,12 @@ export class SceneManager {
   getPiers(): Pier[] {
     return this._piers;
   }
-  getElements(): Graphics[] {
+  getElements(): Container[] {
     return this._elements;
   }
 
   addShip(ship: Ship): void {
-    const shipOnScene = ship.getGraphics();
+    const shipOnScene = ship.getContainer();
     this._ships.push(ship);
     this._elements.push(shipOnScene);
     this._app.stage.addChild(shipOnScene);
@@ -35,12 +35,13 @@ export class SceneManager {
   }
 
   removeShip(ship: Ship): void {
-    const indexGraphics = this._elements.indexOf(ship.getGraphics());
+    const indexContainer = this._elements.indexOf(ship.getContainer());
     const index = this._ships.indexOf(ship);
     if (index > -1) {
-      this._elements.splice(indexGraphics, 1);
+      this._elements.splice(indexContainer, 1);
       this._ships.splice(index, 1);
-      this._app.stage.removeChild(ship.getGraphics());
+      ship.getGraphics().clear();
+      this._app.stage.removeChild(ship.getContainer());
     } else {
       console.error("This ship is absent on scene");
     }

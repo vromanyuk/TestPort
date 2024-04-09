@@ -1,6 +1,6 @@
 import { Ship } from "../../entities/Ship";
 import { RectDrawing } from "../RectDrawing";
-import { Graphics } from "pixi.js";
+import { Graphics, Container } from "pixi.js";
 import { DynamicObjectParameters } from "../../interface/DynamicObjectParameters";
 import { shipConfig } from "../../utils/Configs";
 import { Position } from "../../interface/Position";
@@ -13,8 +13,8 @@ export class ShipFactory {
     const alpha = isLoaded ? shipConfig.back.with : shipConfig.back.without;
     const movement: Position = { x: x, y: y };
     const shipValue: DynamicObjectParameters = {
-      x: 0,
-      y: 0,
+      x: -(shipConfig.width/2),
+      y: -(shipConfig.height/2),
       color: color,
       alpha: alpha,
       graphics: new Graphics(),
@@ -23,13 +23,16 @@ export class ShipFactory {
       widthStroke: shipConfig.widthStroke,
     };
     shipValue.graphics = RectDrawing.draw(shipValue);
+    const container: Container = new Container();
+    container.addChild(shipValue.graphics); 
     return new Ship(
       isLoaded,
       shipValue.graphics,
       shipValue.color,
       movement,
       speed,
-      Direction.Left
+      Direction.Left,
+      container
     );
   }
 }

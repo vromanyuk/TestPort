@@ -3,6 +3,7 @@ import { PierFactory } from "../scripts/components/factories/PierFactory";
 import { BreakwaterFactory } from "../scripts/components/factories/BreakwaterFactory";
 import {
   pierConfig,
+  shipConfig,
   positionBreakwaterTop,
   positionBreakwaterBottom,
 } from "../scripts/utils/Configs";
@@ -49,8 +50,16 @@ export class MainScene {
         y: i * (pierConfig.height + this._space),
       };
       const pointMooring: Position = {
-        x: pierPosition.x + pierConfig.width + pierConfig.widthStroke,
-        y: pierPosition.y - this._space + pierConfig.height / 2,
+        x:
+          pierPosition.x +
+          pierConfig.width +
+          pierConfig.widthStroke +
+          shipConfig.width / 2,
+        y:
+          pierPosition.y -
+          this._space +
+          pierConfig.height / 2 +
+          shipConfig.height / 2,
       };
       this._sceneManager.addPier(
         PierFactory.createPier(0, 0, false, pointMooring),
@@ -73,7 +82,8 @@ export class MainScene {
     );
     this._animationManager = new AnimationManager(
       this._collisionDetector,
-      this._cargoLine
+      this._cargoLine,
+      this._sceneManager
     );
     this._gameManager = new GameManager(
       this._sceneManager,

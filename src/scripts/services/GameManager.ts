@@ -40,7 +40,7 @@ export class GameManager {
 
     if (this._waitingLine.getFullShipsLine().length > 0) {
       let ship: Ship = this._waitingLine.getFullShipsLine()[0];
-      const pier: Pier = this.getFreePierForFullShip(ship);
+      const pier: Pier = this.getFreePierForFullShip();
       if (pier) {
         ship = this._waitingLine.removeFullShip();
         ship.setPier(pier);
@@ -50,7 +50,7 @@ export class GameManager {
     }
     if (this._waitingLine.getEmptyShipsLine().length > 0) {
       let ship: Ship = this._waitingLine.getEmptyShipsLine()[0];
-      const pier: Pier = this.getFreePierForEmptyShip(ship);
+      const pier: Pier = this.getFreePierForEmptyShip();
       if (pier) {
         ship = this._waitingLine.removeEmptyShip();
         ship.setPier(pier);
@@ -79,8 +79,8 @@ export class GameManager {
     }
 
     const pier: Pier = newShip.getIsLoaded()
-      ? this.getFreePierForFullShip(newShip)
-      : this.getFreePierForEmptyShip(newShip);
+      ? this.getFreePierForFullShip()
+      : this.getFreePierForEmptyShip();
     if (pier) {
       pier.setStateBusy(true);
       newShip.setPier(pier);
@@ -92,13 +92,13 @@ export class GameManager {
       ? this.startAnimationToFullShipWaiting(newShip)
       : this.startAnimationToEmptyShipWaiting(newShip);
   }
-  private getFreePierForFullShip(ship: Ship): Pier {
+  private getFreePierForFullShip(): Pier {
     return this._sceneManager
       .getPiers()
       .find((e) => !e.getIsLoaded() && !e.getStateBusy());
   }
 
-  private getFreePierForEmptyShip(ship: Ship): Pier {
+  private getFreePierForEmptyShip(): Pier {
     return this._sceneManager
       .getPiers()
       .find((e) => e.getIsLoaded() && !e.getStateBusy());
@@ -106,12 +106,12 @@ export class GameManager {
 
   private startAnimationToFullShipWaiting(ship: Ship): void {
     this._waitingLine.addFullShip(ship);
-    this._animationManager.animationToFullShipWaiting(ship.getGraphics());
+    this._animationManager.animationToFullShipWaiting(ship);
   }
 
   private startAnimationToEmptyShipWaiting(ship: Ship): void {
     this._waitingLine.addEmptyShip(ship);
-    this._animationManager.animationToEmptyShipWaiting(ship.getGraphics());
+    this._animationManager.animationToEmptyShipWaiting(ship);
   }
 
   private cargoProcess(ship: Ship): void {
@@ -121,7 +121,7 @@ export class GameManager {
       ship.setPier(null);
       pier.togglerPier();
       pier.setStateBusy(false);
-      this._animationManager.animationToExit(ship.getGraphics(), pier);
+      this._animationManager.animationToExit(ship, pier);
     }, 5000);
   }
 }
