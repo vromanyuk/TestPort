@@ -1,19 +1,19 @@
-import { DynamicObject } from '../abstract/DynamicObject';
-import { Graphics } from 'pixi.js';
-import { Position } from '../interface/Position';
-import { DynamicObjectParameters } from '../interface/DynamicObjectParameters';
-import { pierConfig } from '../utils/Configs';
-import { RectDrawing } from '../components/RectDrawing';
+import { DynamicObject } from "../abstract/DynamicObject";
+import { Graphics } from "pixi.js";
+import { Position } from "../interface/Position";
+import { DynamicObjectParameters } from "../interface/DynamicObjectParameters";
+import { pierConfig } from "../utils/Configs";
+import { RectDrawing } from "../components/RectDrawing";
 
 export class Pier extends DynamicObject {
   private _busy: boolean;
   private _pointMooring: Position;
 
   constructor(
-    isLoaded: boolean, 
-    graphics: Graphics, 
-    color: number, 
-    movement: Position, 
+    isLoaded: boolean,
+    graphics: Graphics,
+    color: number,
+    movement: Position,
     busy: boolean,
     pointMooring: Position
   ) {
@@ -22,12 +22,20 @@ export class Pier extends DynamicObject {
     this._pointMooring = pointMooring;
   }
 
-  setStateBusy(value: boolean): void { this._busy = value; }
-  getStateBusy(): boolean { return this._busy; }
-  setPointMooring(value: Position): void { this._pointMooring = value; }
-  getPointMooring(): Position { return this._pointMooring; }
+  public setStateBusy(value: boolean): void {
+    this._busy = value;
+  }
+  public getStateBusy(): boolean {
+    return this._busy;
+  }
+  public setPointMooring(value: Position): void {
+    this._pointMooring = value;
+  }
+  public getPointMooring(): Position {
+    return this._pointMooring;
+  }
 
-  togglerPier(): void {
+  public togglerPier(): void {
     this.setIsLoaded(!this.getIsLoaded());
     const alpha = this.getIsLoaded() ? 1 : 0;
     const pierValue: DynamicObjectParameters = {
@@ -38,8 +46,8 @@ export class Pier extends DynamicObject {
       graphics: this.getGraphics(),
       width: pierConfig.width,
       height: pierConfig.height,
-      widthStroke: pierConfig.widthStroke
-    }
+      widthStroke: pierConfig.widthStroke,
+    };
     this.getGraphics().clear();
     this.setGraphics(RectDrawing.draw(pierValue));
   }

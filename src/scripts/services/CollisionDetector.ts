@@ -17,15 +17,17 @@ export class CollisionDetector {
 
   isCollision(element: Graphics): boolean {
     const index = this._elements.indexOf(element);
-    return this._elements.some((obj, i) =>
-       i !== index && this.checkCollision(element, obj));
+    return this._elements.some(
+      (obj, i) => i !== index && this.checkCollision(element, obj)
+    );
   }
 
   private checkCollision(object: Graphics, environment: Graphics): boolean {
-    return (object.x - 20 < (environment.x + environment.width) &&
-      (object.x + object.width) > environment.x &&
-      object.y < (environment.y + environment.height) &&
-      (object.y + object.height) > environment.y
+    return (
+      object.x - 20 < environment.x + environment.width &&
+      object.x + object.width > environment.x &&
+      object.y < environment.y + environment.height &&
+      object.y + object.height > environment.y
     );
   }
 }

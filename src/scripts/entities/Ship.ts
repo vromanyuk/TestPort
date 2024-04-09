@@ -21,12 +21,12 @@ export class Ship extends DynamicObject {
     this._speed = speed;
   }
 
-  setSpeed(value: number):void { this._speed = value; }
-  getSpeed(): number { return this._speed; }
-  setPier(value: Pier): void { this._pier = value; }
-  getPier(): Pier { return this._pier; }
+  public setSpeed(value: number):void { this._speed = value; }
+  public getSpeed(): number { return this._speed; }
+  public setPier(value: Pier): void { this._pier = value; }
+  public getPier(): Pier { return this._pier; }
 
-  togglerShip(): void {
+  public togglerShip(): void {
     this.setIsLoaded(!this.getIsLoaded());
     const alpha = this.getIsLoaded() ? shipConfig.back.with : shipConfig.back.without;
 

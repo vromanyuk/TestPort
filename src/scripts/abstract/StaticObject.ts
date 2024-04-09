@@ -9,8 +9,8 @@ export abstract class StaticObject {
     this._color = color;
   }
 
-  getGraphics(): Graphics { return this._graphics; }
-  setGraphics(value: Graphics): void { this._graphics = value; }
-  getColor(): number { return this._color; }
-  setColor(value: number): void { this._color = value; }
+  public getGraphics(): Graphics { return this._graphics; }
+  public setGraphics(value: Graphics): void { this._graphics = value; }
+  public getColor(): number { return this._color; }
+  public setColor(value: number): void { this._color = value; }
 } 

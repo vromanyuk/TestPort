@@ -14,14 +14,14 @@ export abstract class DynamicObject {
     this._movement = movement;
   }
 
-  getIsLoaded():boolean { return this._isLoaded; }
-  setIsLoaded(value: boolean):void { this._isLoaded = value; }
-  getGraphics(): Graphics { return this._graphics; }
-  setGraphics(value: Graphics): void { this._graphics = value; }
-  getColor(): number { return this._color; }
-  setColor(value: number): void { this._color = value; }
-  setVertical(value: number): void { this._movement.y = value; }
-  setHorizontal(value: number): void { this._movement.x = value; }
-  getVertical(): number { return this._movement.y; }
-  getHorizontal(): number { return this._movement.x; }
+  public getIsLoaded():boolean { return this._isLoaded; }
+  public setIsLoaded(value: boolean):void { this._isLoaded = value; }
+  public getGraphics(): Graphics { return this._graphics; }
+  public setGraphics(value: Graphics): void { this._graphics = value; }
+  public getColor(): number { return this._color; }
+  public setColor(value: number): void { this._color = value; }
+  public setVertical(value: number): void { this._movement.y = value; }
+  public setHorizontal(value: number): void { this._movement.x = value; }
+  public getVertical(): number { return this._movement.y; }
+  public getHorizontal(): number { return this._movement.x; }
 }

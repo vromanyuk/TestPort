@@ -2,7 +2,7 @@ import { Ship } from "../../entities/Ship";
 import { RectDrawing } from "../RectDrawing";
 import { Graphics } from "pixi.js";
 import { DynamicObjectParameters } from "../../interface/DynamicObjectParameters";
-import { shipConfig } from '../../utils/Configs';
+import { shipConfig } from "../../utils/Configs";
 import { Position } from "../../interface/Position";
 
 export class ShipFactory {
@@ -19,13 +19,13 @@ export class ShipFactory {
       graphics: new Graphics(),
       width: shipConfig.width,
       height: shipConfig.height,
-      widthStroke: shipConfig.widthStroke
-    }
+      widthStroke: shipConfig.widthStroke,
+    };
     shipValue.graphics = RectDrawing.draw(shipValue);
     return new Ship(
-      isLoaded, 
-      shipValue.graphics, 
-      shipValue.color, 
+      isLoaded,
+      shipValue.graphics,
+      shipValue.color,
       movement,
       speed
     );

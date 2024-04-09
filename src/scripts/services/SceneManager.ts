@@ -3,7 +3,7 @@ import { Ship } from "../entities/Ship";
 import { Pier } from "../entities/Pier";
 import { Position } from "../interface/Position";
 import { StaticObject } from "../abstract/StaticObject";
-import { startShipPoint } from "../utils/Configs"
+import { startShipPoint } from "../utils/Configs";
 
 export class SceneManager {
   private _app: Application;
@@ -15,9 +15,15 @@ export class SceneManager {
     this._app = app;
   }
 
-  getShips(): Ship[] { return this._ships; }
-  getPiers(): Pier[] { return this._piers; }
-  getElements(): Graphics[] { return this._elements; }
+  getShips(): Ship[] {
+    return this._ships;
+  }
+  getPiers(): Pier[] {
+    return this._piers;
+  }
+  getElements(): Graphics[] {
+    return this._elements;
+  }
 
   addShip(ship: Ship): void {
     const shipOnScene = ship.getGraphics();
@@ -36,7 +42,7 @@ export class SceneManager {
       this._ships.splice(index, 1);
       this._app.stage.removeChild(ship.getGraphics());
     } else {
-      console.error('This ship is absent on scene');
+      console.error("This ship is absent on scene");
     }
   }
 
@@ -48,11 +54,13 @@ export class SceneManager {
     pierOnScene.y = position.y;
   }
 
-  addStaticElement<T extends StaticObject>(element: T, position: Position): void {
+  addStaticElement<T extends StaticObject>(
+    element: T,
+    position: Position
+  ): void {
     const elementOnScene = element.getGraphics();
     this._app.stage.addChild(elementOnScene);
     elementOnScene.x = position.x;
     elementOnScene.y = position.y;
-
   }
 }
