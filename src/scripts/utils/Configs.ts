@@ -10,7 +10,7 @@ export const shipConfig = {
   width: 80,
   height: 30,
   widthStroke: 4,
-  speed: 30,
+  speed: 40,
 };
 
 export const pierConfig = {
@@ -28,6 +28,12 @@ export const breakwaterConfig = {
   height: 270,
   widthStroke: 4,
 };
+
+export const gateConfig = {
+  x: 300,
+  width: 12,
+  height: 768,
+}
 
 export const positionBreakwaterTop = {
   x: 300,

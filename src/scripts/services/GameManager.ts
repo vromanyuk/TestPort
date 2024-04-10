@@ -26,6 +26,7 @@ export class GameManager {
   }
 
   initializeGame(): void {
+    this.spawnShip();
     setInterval(() => this.spawnShip(), 8000);
   }
 
