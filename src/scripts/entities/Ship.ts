@@ -8,7 +8,6 @@ import { Direction } from "./Direction";
 import * as TWEEN from "@tweenjs/tween.js";
 
 export class Ship extends DynamicObject {
-  private _speed: number;
   private _pier: Pier = null;
   private _direction: Direction;
   private _container: Container;
@@ -19,12 +18,10 @@ export class Ship extends DynamicObject {
     isLoaded: boolean,
     graphics: Graphics,
     color: number,
-    speed: number,
     direction: Direction,
     container: Container
   ) {
     super(isLoaded, graphics, color);
-    this._speed = speed;
     this._direction = direction;
     this._container = container;
     this._tweenAnimation = null;
@@ -41,12 +38,6 @@ export class Ship extends DynamicObject {
   }
   public getTweenAnimation(): TWEEN.Tween<Container> {
     return this._tweenAnimation;
-  }
-  public setSpeed(value: number): void {
-    this._speed = value;
-  }
-  public getSpeed(): number {
-    return this._speed;
   }
   public setPier(value: Pier): void {
     this._pier = value;

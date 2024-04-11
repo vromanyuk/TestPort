@@ -1,4 +1,4 @@
-import { Application, Container } from "pixi.js";
+import { Application } from "pixi.js";
 import { PierFactory } from "../scripts/components/factories/PierFactory";
 import { BreakwaterFactory } from "../scripts/components/factories/BreakwaterFactory";
 import {
@@ -15,9 +15,7 @@ import { GameManager } from "../scripts/services/GameManager";
 import * as TWEEN from "@tweenjs/tween.js";
 import { WaitingLine } from "../scripts/components/WaitingLine";
 import { CargoLine } from "../scripts/components/CargoLine";
-import { Ship } from "../scripts/entities/Ship";
-import { ShipFactory } from "../scripts/components/factories/ShipFactory";
-import { Direction } from "../scripts/entities/Direction";
+import { Constants } from "../scripts/utils/Constants";
 
 export class MainScene {
   private static NUMBER_PIERS: number = 4;
@@ -28,7 +26,7 @@ export class MainScene {
   private _gameManager: GameManager;
   private _waitingLine: WaitingLine;
   private _cargoLine: CargoLine;
-  private _space: number = 10;
+  private _space: number = Constants.PIER_BETWEEN_SPACE;
 
   constructor(app: Application) {
     this._app = app;
@@ -94,42 +92,6 @@ export class MainScene {
       this._waitingLine,
       this._cargoLine
     );
-    // const newShip: Ship = ShipFactory.createShip(shipConfig.speed);
-    // this._sceneManager.addShip(newShip);
-    // const ship = newShip.getContainer();
-    // ship.x = 200;
-    // ship.y = 340;
-
-    // const newShip3: Ship = ShipFactory.createShip(shipConfig.speed);
-    // this._sceneManager.addShip(newShip3);
-    // const ship3: Container = newShip3.getContainer();
-    // ship3.x = 200;
-    // ship3.y = 420;
-
-    // const newShip2: Ship = ShipFactory.createShip(shipConfig.speed);
-    // this._sceneManager.addShip(newShip2);
-    // const ship2: Container = newShip2.getContainer();
-    // ship2.x = 90,
-    // ship2.y = 96
-
-    // const newShip4: Ship = ShipFactory.createShip(shipConfig.speed);
-    // this._sceneManager.addShip(newShip4);
-    // const ship4: Container = newShip4.getContainer();
-    // ship4.x = 90,
-    // ship4.y = 286
-
-    // const newShip5: Ship = ShipFactory.createShip(shipConfig.speed);
-    // this._sceneManager.addShip(newShip5);
-    // const ship5: Container = newShip5.getContainer();
-    // ship5.x = 440,
-    // ship5.y = 272
-
-    // const newShip6: Ship = ShipFactory.createShip(shipConfig.speed);
-    // this._sceneManager.addShip(newShip6);
-    // const ship6: Container = newShip6.getContainer();
-    // ship6.rotation = Direction.Up
-    // ship6.x = 350,
-    // ship6.y = 272
     this._gameManager.initializeGame();
   }
 }

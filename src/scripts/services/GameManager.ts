@@ -1,11 +1,11 @@
 import { CargoLine } from "../components/CargoLine";
 import { WaitingLine } from "../components/WaitingLine";
 import { ShipFactory } from "../components/factories/ShipFactory";
-import { shipConfig } from "../utils/Configs";
 import { Pier } from "../entities/Pier";
 import { Ship } from "../entities/Ship";
 import { SceneManager } from "./SceneManager";
 import { AnimationManager } from "./AnimationManager";
+import { Constants } from "../utils/Constants";
 
 export class GameManager {
   private _sceneManager: SceneManager;
@@ -27,7 +27,7 @@ export class GameManager {
 
   initializeGame(): void {
     this.spawnShip();
-    setInterval(() => this.spawnShip(), 8000);
+    setInterval(() => this.spawnShip(), Constants.SHIP_CREATING_INTERVAL);
   }
 
   update(): void {
@@ -46,7 +46,7 @@ export class GameManager {
         ship = this._waitingLine.removeFullShip();
         ship.setPier(pier);
         pier.setStateBusy(true);
-        this._animationManager.aniamtionToPierFromWaitingPosition(ship, pier);
+        this._animationManager.animationToPierFromWaitingPosition(ship, pier);
       }
     }
     if (this._waitingLine.getEmptyShipsLine().length > 0) {
@@ -56,13 +56,13 @@ export class GameManager {
         ship = this._waitingLine.removeEmptyShip();
         ship.setPier(pier);
         pier.setStateBusy(true);
-        this._animationManager.aniamtionToPierFromWaitingPosition(ship, pier);
+        this._animationManager.animationToPierFromWaitingPosition(ship, pier);
       }
     }
   }
 
   private spawnShip(): void {
-    const newShip: Ship = ShipFactory.createShip(shipConfig.speed);
+    const newShip: Ship = ShipFactory.createShip();
     this._sceneManager.addShip(newShip);
     if (
       newShip.getIsLoaded() &&
@@ -85,7 +85,7 @@ export class GameManager {
     if (pier) {
       pier.setStateBusy(true);
       newShip.setPier(pier);
-      this._animationManager.aniamtionToPier(newShip, pier);
+      this._animationManager.animationToPier(newShip, pier);
       return;
     }
 
@@ -123,6 +123,6 @@ export class GameManager {
       pier.togglerPier();
       pier.setStateBusy(false);
       this._animationManager.animationToExit(ship, pier);
-    }, 5000);
+    }, Constants.LOAD_UNLOAD_CARGO);
   }
 }

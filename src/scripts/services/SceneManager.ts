@@ -1,4 +1,4 @@
-import { Application, Graphics, Container } from "pixi.js";
+import { Application, Container } from "pixi.js";
 import { Ship } from "../entities/Ship";
 import { Pier } from "../entities/Pier";
 import { Position } from "../interface/Position";

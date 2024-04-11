@@ -1,62 +1,64 @@
+import { Constants } from "./Constants";
+
 export const shipConfig = {
   color: {
-    red: 0xde3249,
-    green: 0x35cc5a,
+    red: Constants.RED_COLOR,
+    green: Constants.GREEN_COLOR,
   },
   back: {
-    with: 1,
-    without: 0,
+    with: Constants.SHIP_WITH_ALPHA,
+    without: Constants.SHIP_WITHOUT_ALPHA,
   },
-  width: 80,
-  height: 30,
-  widthStroke: 4,
-  speed: 60,
+  width: Constants.SHIP_WIDTH,
+  height: Constants.SHIP_HEIGHT,
+  widthStroke: Constants.SHIP_WIDTH_STROKE,
+  speed: Constants.SHIP_SPEED,
 };
 
 export const pierConfig = {
-  color: 0xffd800,
-  back: 0,
-  width: 40,
-  height: 180,
-  widthStroke: 6,
+  color: Constants.YELLOW_COLOR,
+  back: Constants.PIER_ALPHA,
+  width: Constants.PIER_WIDTH,
+  height: Constants.PIER_HEIGHT,
+  widthStroke: Constants.PIER_WIDTH_STROKE,
 };
 
 export const breakwaterConfig = {
-  color: 0xffd800,
-  back: 1,
-  width: 10,
-  height: 270,
-  widthStroke: 4,
+  color: Constants.YELLOW_COLOR,
+  back: Constants.BREAKWATER_ALPHA,
+  width: Constants.BREAKWATER_WIDTH,
+  height: Constants.BREAKWATER_HEIGHT,
+  widthStroke: Constants.BREAKWATER_WIDTH_STROKE,
 };
 
 export const gateConfig = {
-  x: 280,
-  y: 272,
-  width: 30,
-  height: 218,
+  x: Constants.GATE_X,
+  y: Constants.GATE_Y,
+  width: Constants.GATE_WIDTH,
+  height: Constants.GATE_HEIGHT,
 }
 
 export const positionBreakwaterTop = {
-  x: 300,
-  y: 0,
+  x: Constants.POSITION_BREAKWATER_TOP_X,
+  y: Constants.POSITION_BREAKWATER_TOP_Y,
 };
 
 export const positionBreakwaterBottom = {
-  x: 300,
-  y: 498,
+  x: Constants.POSITION_BREAKWATER_BOTTOM_X,
+  y: Constants.POSITION_BREAKWATER_BOTTOM_Y,
 };
 
 export const startShipPoint = {
-  x: 1104,
-  y: 340,
+  x: Constants.START_POINT_SHIP_X,
+  y: Constants.START_POINT_SHIP_Y,
 };
 
 export const waitingPointFullShip = {
-  x: 400,
-  y: 220,
+  x: Constants.POINT_FULL_SHIP_WAITING_X,
+  y: Constants.POINT_FULL_SHIP_WAITING_Y,
 };
 
 export const waitingPointEmptyShip = {
-  x: 400,
-  y: 545,
+  x: Constants.POINT_EMPTY_SHIP_WAITING_X,
+  y: Constants.POINT_EMPTY_SHIP_WAITING_Y,
 };
