@@ -13,11 +13,10 @@ export class Pier extends DynamicObject {
     isLoaded: boolean,
     graphics: Graphics,
     color: number,
-    movement: Position,
     busy: boolean,
     pointMooring: Position
   ) {
-    super(isLoaded, graphics, color, movement);
+    super(isLoaded, graphics, color);
     this._busy = busy;
     this._pointMooring = pointMooring;
   }

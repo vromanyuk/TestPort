@@ -7,7 +7,6 @@ import { startShipPoint } from "../utils/Configs";
 
 export class SceneManager {
   private _app: Application;
-  private _elements: Container[] = [];
   private _ships: Ship[] = [];
   private _piers: Pier[] = [];
 
@@ -21,24 +20,18 @@ export class SceneManager {
   getPiers(): Pier[] {
     return this._piers;
   }
-  getElements(): Container[] {
-    return this._elements;
-  }
 
   addShip(ship: Ship): void {
-    const shipOnScene = ship.getContainer();
-    this._ships.push(ship);
-    this._elements.push(shipOnScene);
+    const shipOnScene: Container = ship.getContainer();
+    this._ships.push(ship);7
     this._app.stage.addChild(shipOnScene);
     shipOnScene.x = startShipPoint.x;
     shipOnScene.y = startShipPoint.y;
   }
 
   removeShip(ship: Ship): void {
-    const indexContainer = this._elements.indexOf(ship.getContainer());
     const index = this._ships.indexOf(ship);
     if (index > -1) {
-      this._elements.splice(indexContainer, 1);
       this._ships.splice(index, 1);
       ship.getGraphics().clear();
       this._app.stage.removeChild(ship.getContainer());

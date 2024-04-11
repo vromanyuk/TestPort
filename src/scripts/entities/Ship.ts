@@ -1,33 +1,47 @@
 import { Graphics, Container } from "pixi.js";
 import { DynamicObject } from "../abstract/DynamicObject";
-import { Position } from "../interface/Position";
 import { Pier } from "./Pier";
 import { shipConfig } from "../utils/Configs";
 import { DynamicObjectParameters } from "../interface/DynamicObjectParameters";
 import { RectDrawing } from "../components/RectDrawing";
 import { Direction } from "./Direction";
+import * as TWEEN from "@tweenjs/tween.js";
 
 export class Ship extends DynamicObject {
   private _speed: number;
   private _pier: Pier = null;
   private _direction: Direction;
   private _container: Container;
+  private _tweenAnimation: TWEEN.Tween<Container>;
+  private _priotiy: boolean;
 
   constructor(
     isLoaded: boolean,
     graphics: Graphics,
     color: number,
-    movement: Position,
     speed: number,
     direction: Direction,
     container: Container
   ) {
-    super(isLoaded, graphics, color, movement);
+    super(isLoaded, graphics, color);
     this._speed = speed;
     this._direction = direction;
     this._container = container;
+    this._tweenAnimation = null;
+    this._priotiy = false;
   }
-
+  public setPriority(value: boolean): void {
+    this._priotiy = value;
+  }
+  public getPriority(): boolean {
+    return this._priotiy;
+  }
+  public seTweenAnimation(value: TWEEN.Tween<Container>): void {
+    this._tweenAnimation = value;
+  }
+  public getTweenAnimation(): TWEEN.Tween<Container> {
+    return this._tweenAnimation;
+  }
   public setSpeed(value: number): void {
     this._speed = value;
   }
@@ -43,7 +57,7 @@ export class Ship extends DynamicObject {
   public getDirection(): Direction {
     return this._direction;
   }
-  public serDirection(value: Direction): void {
+  public setDirection(value: Direction): void {
     this._direction = value;
   }
   public setContainer(value: Container): void {
@@ -60,8 +74,8 @@ export class Ship extends DynamicObject {
       : shipConfig.back.without;
 
     const shipValue: DynamicObjectParameters = {
-      x: -(shipConfig.width/2),
-      y: -(shipConfig.height/2),
+      x: -(shipConfig.width / 2),
+      y: -(shipConfig.height / 2),
       color: this.getColor(),
       alpha: alpha,
       graphics: this.getGraphics(),

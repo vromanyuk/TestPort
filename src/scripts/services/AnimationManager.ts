@@ -21,9 +21,9 @@ export class AnimationManager {
   private _cargoLine: CargoLine;
   private _sceneManager: SceneManager;
 
-  private _gate: Gate;
-  private _pointChoosePier: Position = { x: 240, y: 355 };
-  private _pointToExit: Position = { x: 200, y: 415 };
+  private _pointChoosePier: Position = { x: 260, y: 340 };
+  private _pointToExit: Position = { x: 180, y: 420 };
+  private _pointToPort: Position = { x: 974, y: 340 }
 
   constructor(
     collisionDetector: CollisionDetector,
@@ -33,12 +33,6 @@ export class AnimationManager {
     this._collisionDetector = collisionDetector;
     this._cargoLine = cargoLine;
     this._sceneManager = sceneManager;
-    this._gate = new Gate(
-      gateConfig.x,
-      gateConfig.width,
-      gateConfig.height,
-      false
-    );
   }
 
   public async animationToExit(ship: Ship, pier: Pier): Promise<void> {
@@ -46,61 +40,61 @@ export class AnimationManager {
     let from: Position = { x: element.x, y: element.y };
     let to: Position = { x: this._pointToExit.x, y: element.y };
     let duration: number = this.getDuration(from, to);
-    await this.aniamtion(element, Direction.Right, to, duration);
+    ship.setDirection(Direction.Right);
+    await this.aniamtion(ship, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, this._pointToExit);
     const index = this._sceneManager.getPiers().indexOf(pier);
-    await this.aniamtion(
-      element,
-      index > 1 ? Direction.Up : Direction.Down,
-      this._pointToExit,
-      duration
-    );
+    ship.setDirection(index > 1 ? Direction.Up : Direction.Down);
+    await this.aniamtion(ship, this._pointToExit, duration);
 
     from = { x: element.x, y: element.y };
     to = { x: startShipPoint.x, y: element.y };
     duration = this.getDuration(from, to);
-    await this.aniamtion(element, Direction.Right, to, duration);
-
-    from = { x: element.x, y: element.y };
-    duration = this.getDuration(from, startShipPoint);
-    await this.aniamtion(element, Direction.Up, startShipPoint, duration);
+    ship.setDirection(Direction.Right);
+    await this.aniamtion(ship, to, duration);
     this._sceneManager.removeShip(ship);
   }
 
   public async animationToFullShipWaiting(ship: Ship): Promise<void> {
     const element: Container = ship.getContainer();
     let from: Position = { x: element.x, y: element.y };
-    let to: Position = { x: element.x, y: waitingPointFullShip.y };
+    let to: Position = { x: this._pointToPort.x, y: this._pointToPort.y };
     let duration: number = this.getDuration(from, to);
-    await this.aniamtion(element, Direction.Up, to, duration);
+    ship.setDirection(Direction.Left);
+    await this.aniamtion(ship, to, duration);
+
+    from = { x: element.x, y: element.y };
+    to = { x: element.x, y: waitingPointFullShip.y };
+    duration = this.getDuration(from, to);
+    ship.setDirection(Direction.Up);
+    await this.aniamtion(ship, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, waitingPointFullShip);
-    await this.aniamtion(
-      element,
-      Direction.Left,
-      waitingPointFullShip,
-      duration
-    );
+    ship.setDirection(Direction.Left);
+    await this.aniamtion(ship, waitingPointFullShip, duration);
   }
 
   public async animationToEmptyShipWaiting(ship: Ship): Promise<void> {
     const element: Container = ship.getContainer();
     let from: Position = { x: element.x, y: element.y };
-    let to: Position = { x: element.x, y: waitingPointEmptyShip.y };
+    let to: Position = { x: this._pointToPort.x, y: this._pointToPort.y };
     let duration: number = this.getDuration(from, to);
-    await this.aniamtion(element, Direction.Down, to, duration);
+    ship.setDirection(Direction.Left);
+    await this.aniamtion(ship, to, duration);
+
+    from = { x: element.x, y: element.y };
+    to = { x: element.x, y: waitingPointEmptyShip.y };
+    duration = this.getDuration(from, to);
+    ship.setDirection(Direction.Down);
+    await this.aniamtion(ship, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, waitingPointEmptyShip);
-    await this.aniamtion(
-      element,
-      Direction.Left,
-      waitingPointEmptyShip,
-      duration
-    );
+    ship.setDirection(Direction.Left);
+    await this.aniamtion(ship, waitingPointEmptyShip, duration);
   }
 
   public async aniamtionToPierFromWaitingPosition(
@@ -111,41 +105,27 @@ export class AnimationManager {
     let from: Position = { x: element.x, y: element.y };
     let to: Position = { x: element.x, y: this._pointChoosePier.y };
     let duration: number = this.getDuration(from, to);
-    await this.aniamtion(
-      element,
-      ship.getIsLoaded() ? Direction.Down : Direction.Up,
-      to,
-      duration
-    );
+    ship.setDirection(ship.getIsLoaded() ? Direction.Down : Direction.Up);
+    if (ship.getTweenAnimation()) ship.getTweenAnimation().stop();
+    await this.aniamtion(ship, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, this._pointChoosePier);
-    await this.aniamtion(
-      element,
-      Direction.Left,
-      this._pointChoosePier,
-      duration
-    );
+    ship.setDirection(Direction.Left);
+    await this.aniamtion(ship, this._pointChoosePier, duration);
 
     from = { x: element.x, y: element.y };
     to = { x: this._pointChoosePier.x, y: pier.getPointMooring().y };
     duration = this.getDuration(from, to);
     const index = this._sceneManager.getPiers().indexOf(pier);
-    await this.aniamtion(
-      element,
-      index > 1 ? Direction.Up : Direction.Down,
-      to,
-      duration
-    );
+    ship.setDirection(index > 1 ? Direction.Up : Direction.Down);
+    await this.aniamtion(ship, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, pier.getPointMooring());
-    await this.aniamtion(
-      element,
-      Direction.Left,
-      pier.getPointMooring(),
-      duration
-    );
+    ship.setDirection(Direction.Left);
+    await this.aniamtion(ship, pier.getPointMooring(), duration);
+    this._cargoLine.addCargoShip(ship);
   }
 
   public async aniamtionToPier(ship: Ship, pier: Pier): Promise<void> {
@@ -153,70 +133,61 @@ export class AnimationManager {
     let from: Position = { x: element.x, y: element.y };
     let to: Position;
     let duration: number = this.getDuration(from, this._pointChoosePier);
-    await this.aniamtion(
-      element,
-      Direction.Left,
-      this._pointChoosePier,
-      duration
-    );
+    ship.setDirection(Direction.Left);
+    await this.aniamtion(ship, this._pointChoosePier, duration);
 
     from = { x: element.x, y: element.y };
     to = { x: this._pointChoosePier.x, y: pier.getPointMooring().y };
     duration = this.getDuration(from, to);
-    await this.aniamtion(element, Direction.Up, to, duration);
+    ship.setDirection(Direction.Up);
+    await this.aniamtion(ship, to, duration);
 
     from = { x: element.x, y: element.y };
     duration = this.getDuration(from, pier.getPointMooring());
-    await this.aniamtion(
-      element,
-      Direction.Left,
-      pier.getPointMooring(),
-      duration
-    );
+    ship.setDirection(Direction.Left);
+    await this.aniamtion(ship, pier.getPointMooring(), duration);
     this._cargoLine.addCargoShip(ship);
   }
 
-  private aniamtion(
-    element: Container,
-    direction: Direction,
-    to: Position,
-    duration: number
-  ): Promise<void> {
+  private aniamtion(ship: Ship, to: Position, duration: number): Promise<void> {
+    const element: Container = ship.getContainer();
     return new Promise((resolve) => {
-      new TWEEN.Tween(element)
-        .to({ rotation: direction }, 1000)
-        .onComplete(() => {
-          const tweenMove = new TWEEN.Tween(element)
-            .to({ x: to.x, y: to.y }, duration)
-            .onUpdate(() => {
-
-              if (this._collisionDetector.isCollision(element, direction)) {
-                tweenMove.stop();
-                this.waitForCollisionToEnd(element, direction, to, resolve);
-              }
-            })
-            .onComplete(() => resolve())
-            .start();
-        })
-        .start();
+      ship.seTweenAnimation(
+        new TWEEN.Tween(element)
+          .to({ rotation: ship.getDirection() }, 1)
+          .onComplete(() => {
+            ship.seTweenAnimation(
+              new TWEEN.Tween(element)
+                .to({ x: to.x, y: to.y }, duration)
+                .onUpdate(() => {
+                  if (this._collisionDetector.isCollision(ship)) {
+                    ship.getTweenAnimation().stop();
+                    this.waitForCollisionToEnd(ship, to, resolve);
+                  }
+                })
+                .onComplete(() => {
+                  resolve();
+                })
+                .start()
+            );
+          })
+          .start()
+      );
     });
   }
 
-  private waitForCollisionToEnd(
-    element: Container,
-    direction: Direction,
-    to: Position,
-    resolve: () => void
-  ): void {
-    setTimeout(() => {
-      if (!this._collisionDetector.isCollision(element, direction)) {
-        const from: Position = { x: element.x, y: element.y };
+  private waitForCollisionToEnd(ship: Ship, to: Position, resolve: () => void): void {
+    const checkCollision = () => {
+      if (!this._collisionDetector.isCollision(ship)) {
+        const from: Position = { x: ship.getContainer().x, y: ship.getContainer().y };
         const newDuration: number = this.getDuration(from, to);
-        this.aniamtion(element, direction, to, newDuration).then(resolve);
+        this.aniamtion(ship, to, newDuration).then(resolve);
       } else {
-        this.waitForCollisionToEnd(element, direction, to, resolve);
+        setTimeout(checkCollision, 500);
       }
-    }, 500);
+    };
+  
+    checkCollision();
   }
 
   private getDuration(from: Position, to: Position): number {

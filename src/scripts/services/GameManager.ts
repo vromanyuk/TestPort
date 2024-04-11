@@ -62,7 +62,7 @@ export class GameManager {
   }
 
   private spawnShip(): void {
-    const newShip: Ship = ShipFactory.createShip(0, 0, shipConfig.speed);
+    const newShip: Ship = ShipFactory.createShip(shipConfig.speed);
     this._sceneManager.addShip(newShip);
     if (
       newShip.getIsLoaded() &&
