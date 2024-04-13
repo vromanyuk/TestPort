@@ -18,7 +18,6 @@ import { CargoLine } from "../scripts/components/CargoLine";
 import { Constants } from "../scripts/utils/Constants";
 
 export class MainScene {
-  private static NUMBER_PIERS: number = 4;
   private _app: Application;
   private _sceneManager: SceneManager;
   private _collisionDetector: CollisionDetector;
@@ -45,7 +44,7 @@ export class MainScene {
 
   private setup(): void {
     this._sceneManager = new SceneManager(this._app);
-    for (let i = 0; i < MainScene.NUMBER_PIERS; i++) {
+    for (let i = 0; i < Constants.NUMBER_PIERS; i++) {
       const pierPosition: Position = {
         x: 3,
         y: i * (pierConfig.height + this._space),

@@ -40,7 +40,9 @@ export class GameManager {
     }
 
     if (this._waitingLine.getFullShipsLine().length > 0) {
-      let ship: Ship = this._waitingLine.getFullShipsLine()[0];
+      let ship: Ship = this._waitingLine.getFullShipsLine()[
+        Constants.FIRST_ELEMENT_ARRAY
+      ];
       const pier: Pier = this.getFreePierForFullShip();
       if (pier) {
         ship = this._waitingLine.removeFullShip();
@@ -50,7 +52,9 @@ export class GameManager {
       }
     }
     if (this._waitingLine.getEmptyShipsLine().length > 0) {
-      let ship: Ship = this._waitingLine.getEmptyShipsLine()[0];
+      let ship: Ship = this._waitingLine.getEmptyShipsLine()[
+        Constants.FIRST_ELEMENT_ARRAY
+      ];
       const pier: Pier = this.getFreePierForEmptyShip();
       if (pier) {
         ship = this._waitingLine.removeEmptyShip();

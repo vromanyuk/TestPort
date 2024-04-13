@@ -23,7 +23,7 @@ export class SceneManager {
 
   addShip(ship: Ship): void {
     const shipOnScene: Container = ship.getContainer();
-    this._ships.push(ship);7
+    this._ships.push(ship);
     this._app.stage.addChild(shipOnScene);
     shipOnScene.x = startShipPoint.x;
     shipOnScene.y = startShipPoint.y;

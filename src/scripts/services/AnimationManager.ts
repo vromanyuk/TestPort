@@ -228,6 +228,6 @@ export class AnimationManager {
 
   private getDuration(from: Position, to: Position): number {
     const distance = Math.sqrt((to.x - from.x) ** 2 + (to.y - from.y) ** 2);
-    return (distance / shipConfig.speed) * 1000;
+    return (distance / shipConfig.speed) * Constants.ONE_SECOND_INTERVAL;
   }
 }

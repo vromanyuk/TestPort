@@ -6,6 +6,7 @@ export class Constants {
   public static POINT_CHOOSE_TO_PIER_X: number = 290;
   public static POINT_CHOOSE_TO_PIER_Y: number = 340;
 
+  public static ONE_SECOND_INTERVAL: number = 1000;
   public static SHIP_CREATING_INTERVAL: number = 8000;
   public static LOAD_UNLOAD_CARGO: number = 5000;
   public static TIME_WAIT_CHECK_COLLISION: number = 500;
@@ -23,6 +24,7 @@ export class Constants {
   public static SHIP_WITH_ALPHA: number = 1;
   public static SHIP_WITHOUT_ALPHA: number = 0;
 
+  public static NUMBER_PIERS: number = 4;
   public static PIER_WIDTH: number = 40;
   public static PIER_ALPHA: number = 0;
   public static PIER_HEIGHT: number = 180;
@@ -56,4 +58,6 @@ export class Constants {
 
   public static POINT_EMPTY_SHIP_WAITING_X: number = 410;
   public static POINT_EMPTY_SHIP_WAITING_Y: number = 545;
+
+  public static FIRST_ELEMENT_ARRAY: number = 0;
 }
