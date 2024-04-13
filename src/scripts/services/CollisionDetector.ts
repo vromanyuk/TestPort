@@ -90,7 +90,11 @@ export class CollisionDetector {
       (direction === Direction.Right && otherDirection === Direction.Left)
     ) {
       if (ownShip.y !== otherShip.y) return false;
-      if (ownShip.y === otherShip.y && Math.abs(ownShip.x - otherShip.x) < 90)
+      if (
+        ownShip.y === otherShip.y &&
+        Math.abs(ownShip.x - otherShip.x) <
+          Constants.DISTANCE_BETWEEN_PARALLEL_HORIZONTAL_WAYS
+      )
         return true;
     }
     if (
@@ -98,19 +102,21 @@ export class CollisionDetector {
       (otherDirection === Direction.Right || otherDirection === Direction.Left)
     ) {
       if (ownShip.y === otherShip.y) return false;
-      if (Math.abs(ownShip.x - otherShip.x) > 40) return false;
+      if (
+        Math.abs(ownShip.x - otherShip.x) >
+        Constants.DISTANCE_CROSSING_WAYS_UP_DOWN_CHECK_SHIP
+      )
+        return false;
     }
     if (
       (direction === Direction.Right || direction === Direction.Left) &&
       (otherDirection === Direction.Up || otherDirection === Direction.Down)
     ) {
-      if (Math.abs(ownShip.y - otherShip.y) > 60) return false;
-    }
-    if (
-      (direction === Direction.Right || direction === Direction.Left) &&
-      (otherDirection === Direction.Up || otherDirection === Direction.Down)
-    ) {
-      if (Math.abs(ownShip.y - otherShip.y) > 60) return false;
+      if (
+        Math.abs(ownShip.y - otherShip.y) >
+        Constants.DISTANCE_CROSSING_WAYS_LEFT_RIGHT_CHECK_SHIP
+      )
+        return false;
     }
     if (direction === otherDirection && direction === Direction.Up) {
       if (otherShip.y > ownShip.y) return false;

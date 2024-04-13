@@ -9,6 +9,9 @@ export class Constants {
   public static SHIP_CREATING_INTERVAL: number = 8000;
   public static LOAD_UNLOAD_CARGO: number = 5000;
   public static TIME_WAIT_CHECK_COLLISION: number = 500;
+  public static DISTANCE_BETWEEN_PARALLEL_HORIZONTAL_WAYS: number = 90;
+  public static DISTANCE_CROSSING_WAYS_UP_DOWN_CHECK_SHIP: number = 40;
+  public static DISTANCE_CROSSING_WAYS_LEFT_RIGHT_CHECK_SHIP: number = 60;
 
   public static COLLISION_SPACE_RADIUS: number = 46;
   public static PIER_BETWEEN_SPACE:number = 10;
